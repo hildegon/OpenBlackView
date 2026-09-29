@@ -9,6 +9,7 @@ import android.os.StatFs
 import android.provider.DocumentsContract
 import androidx.core.content.ContextCompat
 import androidx.documentfile.provider.DocumentFile
+import com.blackvueeventos.app.blackvue.CATEGORY_BUCKETS
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
@@ -32,22 +33,37 @@ class LocalVideo(
 )
 
 /**
- * Videos live under internal storage `blackvue/eventos` and `blackvue/parking`.
- * Android 11+ needs all-files access for that exact path. Android 10 uses
- * the system folder picker. Older versions use the storage permission.
+ * Videos live under a base folder, default internal storage `blackvue`.
+ * Category folders (`eventos`, `parking`, `normal`, `geocerca`, `conductor`)
+ * and any missing parents are created before a download.
+ * Android 11+ needs all-files access. Android 10 uses the folder picker when
+ * the path is left empty. Older versions use the storage permission.
  */
-class EventStorage(private val context: Context) {
+class EventStorage(
+    private val context: Context,
+    private val downloadRoot: String = "",
+) {
     private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
     private val dirLock = Any()
 
     fun access(): StorageAccess {
+        val root = fileRoot()
         if (canUseDirect()) {
             return StorageAccess(
                 ready = true,
-                label = directRoot().absolutePath + " (eventos y parking)",
+                label = root.absolutePath,
                 needsAllFiles = false,
                 needsWritePermission = false,
                 needsTree = false,
+            )
+        }
+        if (downloadRoot.isNotBlank()) {
+            return StorageAccess(
+                ready = false,
+                label = root.absolutePath,
+                needsAllFiles = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R,
+                needsWritePermission = Build.VERSION.SDK_INT <= Build.VERSION_CODES.P,
+                needsTree = Build.VERSION.SDK_INT == Build.VERSION_CODES.Q,
             )
         }
         val tree = persistedTree()
@@ -62,7 +78,7 @@ class EventStorage(private val context: Context) {
         }
         return StorageAccess(
             ready = false,
-            label = "Sin acceso a blackvue",
+            label = "Sin acceso a la carpeta de destino",
             needsAllFiles = Build.VERSION.SDK_INT >= Build.VERSION_CODES.R,
             needsWritePermission = Build.VERSION.SDK_INT <= Build.VERSION_CODES.P,
             needsTree = Build.VERSION.SDK_INT == Build.VERSION_CODES.Q ||
@@ -98,6 +114,23 @@ class EventStorage(private val context: Context) {
             is Mode.Direct -> listDirect(mode.root)
             is Mode.Tree -> listTree(mode.uri)
             Mode.Missing -> emptyList()
+        }
+    }
+
+    /** Creates the base path and each category folder. Missing parents are created too. */
+    fun ensureLayout() {
+        when (val mode = resolve()) {
+            is Mode.Direct -> ensureDirectories(mode.root, CATEGORY_BUCKETS)
+            is Mode.Tree -> {
+                val root = DocumentFile.fromTreeUri(context, mode.uri)
+                    ?: throw StorageException("La carpeta elegida ya no está disponible. Vuelve a seleccionarla.")
+                for (bucket in CATEGORY_BUCKETS) {
+                    childDir(root, bucket)
+                }
+            }
+            Mode.Missing -> throw StorageException(
+                "No hay permiso para escribir en la carpeta de destino.",
+            )
         }
     }
 
@@ -246,10 +279,16 @@ class EventStorage(private val context: Context) {
     }
 
     private fun resolve(): Mode {
-        if (canUseDirect()) return Mode.Direct(directRoot())
-        val tree = persistedTree()
-        if (tree != null) return Mode.Tree(tree)
+        if (canUseDirect()) return Mode.Direct(fileRoot())
+        if (downloadRoot.isBlank()) {
+            val tree = persistedTree()
+            if (tree != null) return Mode.Tree(tree)
+        }
         return Mode.Missing
+    }
+
+    private fun fileRoot(): File {
+        return resolveBaseDirectory(Environment.getExternalStorageDirectory(), downloadRoot)
     }
 
     private fun canUseDirect(): Boolean {
@@ -274,10 +313,6 @@ class EventStorage(private val context: Context) {
             permission.uri == uri && permission.isReadPermission && permission.isWritePermission
         }
         return if (ok) uri else null
-    }
-
-    private fun directRoot(): File {
-        return File(Environment.getExternalStorageDirectory(), "blackvue")
     }
 
     private sealed interface Mode {

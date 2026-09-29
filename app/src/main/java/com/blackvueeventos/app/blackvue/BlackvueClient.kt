@@ -111,7 +111,7 @@ class BlackvueClient(
     fun deleteVerified(rawHost: String, filename: String): CameraDelete {
         val safe = filename.substringAfterLast('/').substringAfterLast('\\')
         val parsed = parseRecordingName(safe)
-        if (parsed == null || (!parsed.isEventLike && !parsed.isParking)) {
+        if (parsed == null || categoryOf(parsed.type) == null) {
             throw CameraHttpException("Solo se pueden borrar archivos que esta app acaba de comprobar.")
         }
         val (_, name, port) = endpoint(rawHost)

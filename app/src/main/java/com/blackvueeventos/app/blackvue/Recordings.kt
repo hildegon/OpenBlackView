@@ -7,8 +7,9 @@ import java.time.LocalDate
  * BlackVue clip names look like `20260928_153045_EF.mp4`:
  * date, time, type letter, direction letter, optional L/S upload flag.
  *
- * Event-like types match blackvuesync `--include E,M,I,O,A,T,B`:
- * Event, Manual, Impact, Overspeed, Acceleration, Cornering, Braking.
+ * The camera index returns every mp4. Sync keeps the categories enabled in settings.
+ * Letters match [blackvuesync](https://github.com/acolomba/blackvuesync):
+ * event-like E M I O A T B, parking P, normal N, geofence R X G, driver monitoring D L Y F.
  */
 data class Recording(
     val filename: String,
@@ -20,6 +21,15 @@ data class Recording(
     val isParking: Boolean get() = type == 'P'
 }
 
+/** Which categories a sync is allowed to copy. Events and parking default on. */
+data class SyncSelection(
+    val events: Boolean = true,
+    val parking: Boolean = true,
+    val normal: Boolean = false,
+    val geofence: Boolean = false,
+    val driver: Boolean = false,
+)
+
 data class CameraListing(
     val legacyApi: Boolean,
     val names: List<String>,
@@ -29,15 +39,53 @@ data class CameraListing(
 const val DEFAULT_CAMERA_HOST = "10.99.77.1"
 
 val EVENT_TYPES: Set<Char> = setOf('E', 'M', 'I', 'O', 'A', 'T', 'B')
+private val GEOFENCE_TYPES: Set<Char> = setOf('R', 'X', 'G')
+private val DRIVER_TYPES: Set<Char> = setOf('D', 'L', 'Y', 'F')
 
 const val EVENTS_BUCKET = "eventos"
 const val PARKING_BUCKET = "parking"
+const val NORMAL_BUCKET = "normal"
+const val GEOFENCE_BUCKET = "geocerca"
+const val DRIVER_BUCKET = "conductor"
 
-fun includeInSync(recording: Recording, downloadParking: Boolean): Boolean {
-    return recording.isEventLike || (downloadParking && recording.isParking)
+enum class ClipCategory(val bucket: String, val title: String, val codes: String) {
+    EVENTS(EVENTS_BUCKET, "Eventos", "E, M, I, O, A, T, B"),
+    PARKING(PARKING_BUCKET, "Parking", "P"),
+    NORMAL(NORMAL_BUCKET, "Normal", "N"),
+    GEOFENCE(GEOFENCE_BUCKET, "Geocerca", "R, X, G"),
+    DRIVER(DRIVER_BUCKET, "Conductor", "D, L, Y, F"),
 }
 
-fun storageBucket(type: Char): String = if (type == 'P') PARKING_BUCKET else EVENTS_BUCKET
+val CATEGORY_BUCKETS: List<String> = ClipCategory.entries.map { it.bucket }
+
+fun categoryOf(type: Char): ClipCategory? = when (type) {
+    in EVENT_TYPES -> ClipCategory.EVENTS
+    'P' -> ClipCategory.PARKING
+    'N' -> ClipCategory.NORMAL
+    in GEOFENCE_TYPES -> ClipCategory.GEOFENCE
+    in DRIVER_TYPES -> ClipCategory.DRIVER
+    else -> null
+}
+
+fun ClipCategory.selected(selection: SyncSelection): Boolean = when (this) {
+    ClipCategory.EVENTS -> selection.events
+    ClipCategory.PARKING -> selection.parking
+    ClipCategory.NORMAL -> selection.normal
+    ClipCategory.GEOFENCE -> selection.geofence
+    ClipCategory.DRIVER -> selection.driver
+}
+
+fun anySelected(selection: SyncSelection): Boolean = ClipCategory.entries.any { it.selected(selection) }
+
+fun includeInSync(recording: Recording, selection: SyncSelection): Boolean {
+    val category = categoryOf(recording.type) ?: return false
+    return category.selected(selection)
+}
+
+fun storageBucket(type: Char): String {
+    return categoryOf(type)?.bucket
+        ?: throw IllegalArgumentException("Tipo de grabación no soportado: $type")
+}
 
 private val TYPE_LABELS = mapOf(
     'E' to "evento",
@@ -49,6 +97,13 @@ private val TYPE_LABELS = mapOf(
     'B' to "frenada",
     'P' to "parking",
     'N' to "normal",
+    'R' to "entrada",
+    'X' to "salida",
+    'G' to "paso",
+    'D' to "somnolencia",
+    'L' to "distraccion",
+    'Y' to "cinturon",
+    'F' to "ausente",
 )
 
 private val DIRECTION_LABELS = mapOf(

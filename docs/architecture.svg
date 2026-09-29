@@ -14,7 +14,7 @@
   <text x="48" y="240" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Join the camera Wi-Fi</text>
   <text x="48" y="264" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Turn mobile data off</text>
   <text x="48" y="288" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Sync, or open live view</text>
-  <text x="48" y="312" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Save under blackvue/</text>
+  <text x="48" y="312" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Save under the base folder</text>
   <text x="48" y="380" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Android 8.0+ · API 26</text>
 
   <rect x="298" y="100" width="364" height="320" rx="16" fill="#1C2126" stroke="#E8A317"/>

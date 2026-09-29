@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 760" role="img" aria-labelledby="uiTitle uiDesc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 920" role="img" aria-labelledby="uiTitle uiDesc">
   <title id="uiTitle">Schematic of the three OpenBlackView screens</title>
   <desc id="uiDesc">Wireframe of Home, Settings with the compatible-camera note, and Live view. This is a layout diagram, not a photograph of a device.</desc>
   <rect width="1080" height="760" rx="20" fill="#101214"/>
@@ -13,8 +13,8 @@
   <text x="48" y="174" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Cámaras BlackVue · solo red local</text>
   <text x="250" y="152" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">En vivo</text>
   <circle cx="322" cy="147" r="8" fill="none" stroke="#E8A317" stroke-width="1.5"/>
-  <text x="48" y="204" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Wi-Fi de la cámara. Eventos en blackvue/eventos.</text>
-  <text x="48" y="220" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Modelos compatibles en Ajustes.</text>
+  <text x="48" y="204" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Wi-Fi de la cámara. Carpeta base y tipos en Ajustes.</text>
+  <text x="48" y="220" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">eventos, parking, normal, geocerca, conductor.</text>
   <text x="48" y="248" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">/storage/.../blackvue</text>
 
   <rect x="48" y="268" width="288" height="52" rx="14" fill="#E8A317"/>
@@ -34,7 +34,7 @@
   <text x="48" y="638" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">files just downloaded and size-checked.</text>
 
   <!-- Settings -->
-  <rect x="376" y="92" width="328" height="640" rx="22" fill="#1C2126" stroke="#E8A317"/>
+  <rect x="376" y="92" width="328" height="790" rx="22" fill="#1C2126" stroke="#E8A317"/>
   <text x="396" y="122" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="1.1">SETTINGS</text>
   <text x="396" y="152" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="600">Ajustes</text>
   <text x="396" y="174" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">IP habitual del Wi-Fi: 10.99.77.1</text>
@@ -45,32 +45,52 @@
 
   <rect x="396" y="258" width="36" height="20" rx="10" fill="#E8A317"/>
   <circle cx="422" cy="268" r="7" fill="#1A1203"/>
-  <text x="444" y="273" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargar parking</text>
+  <text x="444" y="273" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargar eventos</text>
 
-  <text x="396" y="306" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargas a la vez</text>
-  <rect x="396" y="316" width="66" height="36" rx="8" fill="#2E373E"/>
-  <text x="422" y="340" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">1</text>
-  <rect x="470" y="316" width="66" height="36" rx="8" fill="#2E373E"/>
-  <text x="496" y="340" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">2</text>
-  <rect x="544" y="316" width="66" height="36" rx="8" fill="#E8A317"/>
-  <text x="570" y="340" fill="#1A1203" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">3</text>
-  <rect x="618" y="316" width="66" height="36" rx="8" fill="#2E373E"/>
-  <text x="644" y="340" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">4</text>
+  <rect x="396" y="286" width="36" height="20" rx="10" fill="#E8A317"/>
+  <circle cx="422" cy="296" r="7" fill="#1A1203"/>
+  <text x="444" y="301" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargar parking</text>
 
-  <rect x="396" y="368" width="288" height="44" rx="14" fill="#E8A317"/>
-  <text x="508" y="396" fill="#1A1203" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600">Guardar</text>
+  <rect x="396" y="314" width="36" height="20" rx="10" fill="#2E373E"/>
+  <circle cx="406" cy="324" r="7" fill="#9AA4A8"/>
+  <text x="444" y="329" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargar normal</text>
 
-  <text x="396" y="440" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Cámaras compatibles</text>
-  <text x="396" y="462" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Probado en DR590XP. API local:</text>
-  <text x="396" y="480" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">blackvue_live.cgi, blackvue_vod.cgi</text>
-  <text x="396" y="498" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">o /vodList en firmware reciente.</text>
-  <text x="396" y="524" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Familias históricas, no una lista</text>
-  <text x="396" y="542" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">oficial: DR590X, DR590XP, DR750X,</text>
-  <text x="396" y="560" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">DR900X, DR770X, DR970X, DR650S,</text>
-  <text x="396" y="578" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">DR750S, DR900S.</text>
-  <text x="396" y="612" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">BlackVue Eventos 1.0 · sin nube.</text>
-  <text x="396" y="700" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">The camera list is a note in Settings.</text>
-  <text x="396" y="718" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">It is not a detected-model picker.</text>
+  <rect x="396" y="342" width="36" height="20" rx="10" fill="#2E373E"/>
+  <circle cx="406" cy="352" r="7" fill="#9AA4A8"/>
+  <text x="444" y="357" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargar geocerca</text>
+
+  <rect x="396" y="370" width="36" height="20" rx="10" fill="#2E373E"/>
+  <circle cx="406" cy="380" r="7" fill="#9AA4A8"/>
+  <text x="444" y="385" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargar conductor</text>
+
+  <text x="396" y="418" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Carpeta base</text>
+  <rect x="396" y="426" width="288" height="36" rx="8" fill="#101214" stroke="#2E373E"/>
+  <text x="408" y="449" fill="#9AA4A8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11">Almacenamiento interno/blackvue</text>
+
+  <text x="396" y="486" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargas a la vez</text>
+  <rect x="396" y="496" width="66" height="36" rx="8" fill="#2E373E"/>
+  <text x="422" y="520" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">1</text>
+  <rect x="470" y="496" width="66" height="36" rx="8" fill="#2E373E"/>
+  <text x="496" y="520" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">2</text>
+  <rect x="544" y="496" width="66" height="36" rx="8" fill="#E8A317"/>
+  <text x="570" y="520" fill="#1A1203" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">3</text>
+  <rect x="618" y="496" width="66" height="36" rx="8" fill="#2E373E"/>
+  <text x="644" y="520" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">4</text>
+
+  <rect x="396" y="548" width="288" height="44" rx="14" fill="#E8A317"/>
+  <text x="508" y="576" fill="#1A1203" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600">Guardar</text>
+
+  <text x="396" y="620" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Cámaras compatibles</text>
+  <text x="396" y="642" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Probado en DR590XP. API local:</text>
+  <text x="396" y="660" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">blackvue_live.cgi, blackvue_vod.cgi</text>
+  <text x="396" y="678" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">o /vodList en firmware reciente.</text>
+  <text x="396" y="704" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Familias históricas, no una lista</text>
+  <text x="396" y="722" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">oficial: DR590X, DR590XP, DR750X,</text>
+  <text x="396" y="740" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">DR900X, DR770X, DR970X, DR650S,</text>
+  <text x="396" y="758" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">DR750S, DR900S.</text>
+  <text x="396" y="792" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">BlackVue Eventos 1.0 · sin nube.</text>
+  <text x="396" y="828" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">The camera list is a note in Settings.</text>
+  <text x="396" y="846" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">It is not a detected-model picker.</text>
 
   <!-- Live -->
   <rect x="724" y="92" width="328" height="560" rx="22" fill="#1C2126" stroke="#2E373E"/>
