@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 760" role="img" aria-labelledby="uiTitle uiDesc">
+  <title id="uiTitle">Schematic of the three OpenBlackView screens</title>
+  <desc id="uiDesc">Wireframe of Home, Settings with the compatible-camera note, and Live view. This is a layout diagram, not a photograph of a device.</desc>
+  <rect width="1080" height="760" rx="20" fill="#101214"/>
+  <text x="32" y="42" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="600">Screen layout</text>
+  <text x="32" y="68" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Schematic of the Android UI. Not a capture from a phone or emulator. Labels match the Spanish strings in the app.</text>
+
+  <!-- Home -->
+  <rect x="28" y="92" width="328" height="560" rx="22" fill="#1C2126" stroke="#2E373E"/>
+  <text x="48" y="122" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="1.1">HOME</text>
+  <text x="48" y="152" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="600">BlackVue Eventos</text>
+  <text x="48" y="174" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Cámaras BlackVue · solo red local</text>
+  <text x="250" y="152" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">En vivo</text>
+  <circle cx="322" cy="147" r="8" fill="none" stroke="#E8A317" stroke-width="1.5"/>
+  <text x="48" y="204" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Wi-Fi de la cámara. Eventos en blackvue/eventos.</text>
+  <text x="48" y="220" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Modelos compatibles en Ajustes.</text>
+  <text x="48" y="248" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">/storage/.../blackvue</text>
+
+  <rect x="48" y="268" width="288" height="52" rx="14" fill="#E8A317"/>
+  <text x="108" y="300" fill="#1A1203" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600">Sincronizar cámara</text>
+  <rect x="48" y="332" width="288" height="44" rx="14" fill="none" stroke="#2E373E"/>
+  <text x="118" y="360" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Borrar de la cámara</text>
+
+  <text x="48" y="400" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Registro</text>
+  <rect x="48" y="412" width="288" height="112" rx="12" fill="#101214"/>
+  <text x="60" y="436" fill="#9AA4A8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11">Listado recibido ... /vodList</text>
+  <text x="60" y="456" fill="#9AA4A8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11">Por bajar: 4</text>
+  <text x="60" y="476" fill="#E7ECE8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11">Guardado eventos/2026-09-29/...</text>
+  <text x="60" y="500" fill="#9AA4A8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11">2/4 archivos</text>
+
+  <text x="48" y="556" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">A bar and Cancel appear during a job.</text>
+  <text x="48" y="620" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Sync first. Delete is offered only for</text>
+  <text x="48" y="638" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">files just downloaded and size-checked.</text>
+
+  <!-- Settings -->
+  <rect x="376" y="92" width="328" height="640" rx="22" fill="#1C2126" stroke="#E8A317"/>
+  <text x="396" y="122" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="1.1">SETTINGS</text>
+  <text x="396" y="152" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="600">Ajustes</text>
+  <text x="396" y="174" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">IP habitual del Wi-Fi: 10.99.77.1</text>
+
+  <rect x="396" y="192" width="288" height="52" rx="10" fill="#101214" stroke="#E8A317"/>
+  <text x="408" y="212" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">IP de la cámara</text>
+  <text x="408" y="232" fill="#E7ECE8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="14">10.99.77.1</text>
+
+  <rect x="396" y="258" width="36" height="20" rx="10" fill="#E8A317"/>
+  <circle cx="422" cy="268" r="7" fill="#1A1203"/>
+  <text x="444" y="273" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargar parking</text>
+
+  <text x="396" y="306" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Descargas a la vez</text>
+  <rect x="396" y="316" width="66" height="36" rx="8" fill="#2E373E"/>
+  <text x="422" y="340" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">1</text>
+  <rect x="470" y="316" width="66" height="36" rx="8" fill="#2E373E"/>
+  <text x="496" y="340" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">2</text>
+  <rect x="544" y="316" width="66" height="36" rx="8" fill="#E8A317"/>
+  <text x="570" y="340" fill="#1A1203" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">3</text>
+  <rect x="618" y="316" width="66" height="36" rx="8" fill="#2E373E"/>
+  <text x="644" y="340" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">4</text>
+
+  <rect x="396" y="368" width="288" height="44" rx="14" fill="#E8A317"/>
+  <text x="508" y="396" fill="#1A1203" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600">Guardar</text>
+
+  <text x="396" y="440" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Cámaras compatibles</text>
+  <text x="396" y="462" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Probado en DR590XP. API local:</text>
+  <text x="396" y="480" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">blackvue_live.cgi, blackvue_vod.cgi</text>
+  <text x="396" y="498" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">o /vodList en firmware reciente.</text>
+  <text x="396" y="524" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Familias históricas, no una lista</text>
+  <text x="396" y="542" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">oficial: DR590X, DR590XP, DR750X,</text>
+  <text x="396" y="560" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">DR900X, DR770X, DR970X, DR650S,</text>
+  <text x="396" y="578" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">DR750S, DR900S.</text>
+  <text x="396" y="612" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">BlackVue Eventos 1.0 · sin nube.</text>
+  <text x="396" y="700" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">The camera list is a note in Settings.</text>
+  <text x="396" y="718" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">It is not a detected-model picker.</text>
+
+  <!-- Live -->
+  <rect x="724" y="92" width="328" height="560" rx="22" fill="#1C2126" stroke="#2E373E"/>
+  <text x="744" y="122" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="1.1">LIVE</text>
+  <text x="744" y="152" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="18" font-weight="600">En vivo</text>
+  <text x="744" y="174" fill="#9AA4A8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12">10.99.77.1</text>
+  <text x="744" y="200" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="11">Se corta al salir de esta pantalla.</text>
+
+  <rect x="744" y="216" width="136" height="36" rx="8" fill="#E8A317"/>
+  <text x="786" y="240" fill="#1A1203" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Frente</text>
+  <rect x="892" y="216" width="136" height="36" rx="8" fill="#2E373E"/>
+  <text x="930" y="240" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Trasera</text>
+
+  <rect x="744" y="268" width="284" height="250" rx="16" fill="#101214" stroke="#2E373E"/>
+  <text x="804" y="360" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">MJPEG frames</text>
+  <text x="786" y="382" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">from the camera</text>
+  <text x="778" y="420" fill="#E8A317" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11">blackvue_live.cgi</text>
+  <text x="792" y="440" fill="#9AA4A8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="11">rear: ?direction=R</text>
+
+  <text x="744" y="548" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Leaving the screen closes the socket.</text>
+  <text x="744" y="568" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Live waits while a copy is running.</text>
+  <text x="744" y="600" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Rear failure: "No llega la cámara trasera."</text>
+  <text x="744" y="632" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12">Retry stays on this screen.</text>
+</svg>
