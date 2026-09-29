@@ -377,7 +377,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                         failed++
                         log(
                             "No se borró $filename. La cámara no acepta borrado por Wi‑Fi. " +
-                                "En la DR590XP hay que quitar el archivo con la tarjeta SD.",
+                                "Hay que quitar el archivo con la tarjeta SD.",
                         )
                     }
                     CameraDelete.StillThere -> {
