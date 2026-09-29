@@ -191,7 +191,7 @@ fun SettingsScreen(viewModel: AppViewModel, onBack: () -> Unit) {
             )
             Spacer(Modifier.height(16.dp))
             Text(
-                "BlackVue Eventos 1.0 · sin nube.",
+                "OpenBlackVue-Dash 1.0 · sin nube.",
                 color = Muted,
                 style = MaterialTheme.typography.bodySmall,
             )

@@ -37,7 +37,7 @@ class KeepAliveService : Service() {
         channel.description = "Avisa mientras se copian vídeos de la cámara."
         manager.createNotificationChannel(channel)
         return Notification.Builder(this, CHANNEL_ID)
-            .setContentTitle("BlackVue Eventos")
+            .setContentTitle(getString(R.string.app_name))
             .setContentText(text)
             .setSmallIcon(R.drawable.ic_stat)
             .setOngoing(true)

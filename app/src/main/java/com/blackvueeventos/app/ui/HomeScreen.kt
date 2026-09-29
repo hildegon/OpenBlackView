@@ -175,7 +175,7 @@ fun HomeScreen(viewModel: AppViewModel, onSettings: () -> Unit, onLive: () -> Un
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
-                    Text("BlackVue Eventos", style = MaterialTheme.typography.headlineSmall, color = Paper)
+                    Text("OpenBlackVue-Dash", style = MaterialTheme.typography.headlineSmall, color = Paper)
                     Text("Cámaras BlackVue · solo red local", color = Muted, style = MaterialTheme.typography.bodyMedium)
                 }
                 TextButton(onClick = onLive) {

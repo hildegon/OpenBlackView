@@ -1,6 +1,6 @@
-# OpenBlackView
+# OpenBlackVue-Dash
 
-Android app that copies BlackVue clips over the camera’s own Wi‑Fi, and shows front or rear live view. On the phone the app is named **BlackVue Eventos**. Event clips download by default. Parking, continuous driving, geofence, and driver-monitoring clips each have a switch.
+Android app that copies BlackVue clips over the camera’s own Wi‑Fi, and shows front or rear live view. On the phone the app is named **OpenBlackVue-Dash**. Event clips download by default. Parking, continuous driving, geofence, and driver-monitoring clips each have a switch.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-E8A317?style=flat-square)](LICENSE)
 ![Android 8.0+](https://img.shields.io/badge/Android-8.0%2B-9AA4A8?style=flat-square)
@@ -20,7 +20,7 @@ Captured on an Android emulator (no camera connected — Live shows the connecti
 
 ## What it is
 
-OpenBlackView is a single APK. It lists recordings on the camera, downloads the categories you leave enabled, and can open a live MJPEG stream from the front or rear lens.
+OpenBlackVue-Dash is a single APK. It lists recordings on the camera, downloads the categories you leave enabled, and can open a live MJPEG stream from the front or rear lens.
 
 | Topic | Detail |
 | --- | --- |
@@ -216,8 +216,8 @@ UI strings in the app stay in Spanish unless a change is explicitly about transl
 
 ## License
 
-MIT. See [LICENSE](LICENSE). Copyright 2026 OpenBlackView contributors.
+MIT. See [LICENSE](LICENSE). Copyright 2026 OpenBlackVue-Dash contributors.
 
 ## Español
 
-App Android para copiar clips desde el Wi‑Fi de la propia BlackVue y ver el directo de frente o trasera. En el teléfono se llama **BlackVue Eventos**. Los eventos y el parking vienen activados. La grabación normal (`N`), la geocerca y el aviso de conductor son opcionales y vienen desactivados. La carpeta base por defecto es `Almacenamiento interno/blackvue`; se puede cambiar en Ajustes. Si faltan esa ruta o las carpetas `eventos`, `parking`, `normal`, `geocerca` y `conductor`, la sincronización las crea. Probada en la DR590XP; otras familias con la misma API HTTP local pueden funcionar (la nota está en Ajustes). No hace falta BlackVue Cloud ni Termux. Subir los vídeos a un NAS queda fuera.
+App Android para copiar clips desde el Wi‑Fi de la propia BlackVue y ver el directo de frente o trasera. En el teléfono se llama **OpenBlackVue-Dash**. Los eventos y el parking vienen activados. La grabación normal (`N`), la geocerca y el aviso de conductor son opcionales y vienen desactivados. La carpeta base por defecto es `Almacenamiento interno/blackvue`; se puede cambiar en Ajustes. Si faltan esa ruta o las carpetas `eventos`, `parking`, `normal`, `geocerca` y `conductor`, la sincronización las crea. Probada en la DR590XP; otras familias con la misma API HTTP local pueden funcionar (la nota está en Ajustes). No hace falta BlackVue Cloud ni Termux. Subir los vídeos a un NAS queda fuera.
