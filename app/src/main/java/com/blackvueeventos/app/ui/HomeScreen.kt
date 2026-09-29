@@ -118,7 +118,8 @@ fun HomeScreen(viewModel: AppViewModel, onSettings: () -> Unit, onLive: () -> Un
                 Text(
                     "Se borrarán $files que se acaban de descargar y comprobar. " +
                         "El resto de la tarjeta no se toca. No se puede deshacer. " +
-                        "En la DR590XP el borrado por Wi‑Fi suele no existir: si falla, el registro lo dirá y el archivo seguirá en la tarjeta.",
+                        "En muchos modelos (por ejemplo la DR590XP) el borrado por Wi‑Fi no existe: " +
+                        "si falla, el registro lo dirá y el archivo seguirá en la tarjeta.",
                 )
             },
             confirmButton = {
@@ -168,7 +169,7 @@ fun HomeScreen(viewModel: AppViewModel, onSettings: () -> Unit, onLive: () -> Un
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
                     Text("BlackVue Eventos", style = MaterialTheme.typography.headlineSmall, color = Paper)
-                    Text("DR590XP · solo red local", color = Muted, style = MaterialTheme.typography.bodyMedium)
+                    Text("Cámaras BlackVue · solo red local", color = Muted, style = MaterialTheme.typography.bodyMedium)
                 }
                 TextButton(onClick = onLive) {
                     Text("En vivo", color = Amber)
@@ -179,7 +180,7 @@ fun HomeScreen(viewModel: AppViewModel, onSettings: () -> Unit, onLive: () -> Un
             }
             Spacer(Modifier.height(8.dp))
             Text(
-                "Conecta el teléfono al Wi‑Fi de la cámara. Eventos en blackvue/eventos; parking, si está activado, en blackvue/parking.",
+                "Conecta el teléfono al Wi‑Fi de la cámara. Eventos en blackvue/eventos; parking, si está activado, en blackvue/parking. Modelos compatibles en Ajustes.",
                 color = Muted,
                 style = MaterialTheme.typography.bodySmall,
             )

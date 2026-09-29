@@ -147,6 +147,24 @@ fun SettingsScreen(viewModel: AppViewModel, onBack: () -> Unit) {
             ) {
                 Text("Guardar")
             }
+            Spacer(Modifier.height(20.dp))
+            Text("Cámaras compatibles", color = Paper, style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.height(6.dp))
+            Text(
+                "Probado en DR590XP. Debería funcionar en modelos BlackVue con Wi‑Fi local y la API HTTP clásica: " +
+                    "vídeo en vivo en blackvue_live.cgi y listado de eventos en blackvue_vod.cgi " +
+                    "o, en firmware reciente, en /vodList.",
+                color = Muted,
+                style = MaterialTheme.typography.bodySmall,
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                "Familias que históricamente usan esa API: DR590X y DR590X-2CH, DR590XP, DR750X, DR900X, " +
+                    "DR770X, DR970X (incluidas Plus y LTE) y series anteriores como DR650S, DR750S y DR900S. " +
+                    "No es una lista oficial ni exhaustiva. La app prueba el listado nuevo y el antiguo.",
+                color = Muted,
+                style = MaterialTheme.typography.bodySmall,
+            )
             Spacer(Modifier.height(16.dp))
             Text(
                 "BlackVue Eventos 1.0 · sin nube.",

@@ -103,8 +103,8 @@ class BlackvueClient(
     /**
      * Best-effort delete of one event file.
      *
-     * DR590XP-class cameras only document list + download. "Delete Video" was added in 2025
-     * for DR970X/DR770X firmware, not this model. We try the file-scoped requests that pair
+     * Many models only document list + download (tried on a DR590XP). "Delete Video" was added
+     * in 2025 for some DR970X/DR770X firmware. We try the file-scoped requests that pair
      * with those APIs, then trust only a fresh index that no longer contains the name.
      * Nothing here formats the card or deletes by wildcard.
      */
