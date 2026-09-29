@@ -1,82 +1,185 @@
 # OpenBlackView
 
-App Android ligera para cámaras BlackVue con Wi‑Fi local. En el teléfono se llama **BlackVue Eventos**. Se conecta al Wi‑Fi de la cámara, baja los clips de evento y, si lo activas, los de parking, y puede mostrar el vídeo en vivo (frente y trasera). Sirve para varias familias que comparten la misma API HTTP local; la DR590XP es el modelo en el que se ha probado. No usa la app oficial ni BlackVue Cloud. No hay cuenta ni analíticas.
+Android app that copies event clips, and optional parking clips, from a BlackVue dashcam over the camera’s own Wi‑Fi, and shows front or rear live view. On the phone the app is named **BlackVue Eventos**.
 
-Los vídeos se quedan en el teléfono. Copiarlos a un disco de red queda fuera: sirve cualquier app que sincronice una carpeta.
+[![License: MIT](https://img.shields.io/badge/license-MIT-E8A317?style=flat-square)](LICENSE)
+![Android 8.0+](https://img.shields.io/badge/Android-8.0%2B-9AA4A8?style=flat-square)
 
-## English
+The phone joins the dashcam access point and talks to it over cleartext HTTP. Clips stay on the phone. There is no account and no analytics. MIT licensed.
 
-Lightweight Android app for BlackVue dashcams that expose a local Wi‑Fi HTTP API. It pulls event clips (and optional parking clips) and shows front/rear live view. Tried on a DR590XP; other families that use the same endpoints should work (see below). Join the camera Wi‑Fi, set the camera IP in settings, then sync or open live view. Files land in `blackvue/eventos` and `blackvue/parking`. Termux is not required. NAS upload is out of scope. MIT licensed.
+The in-app language is Spanish. This file is the English guide.
 
-## Cómo funciona
+## What it is
 
-1. Conecta el teléfono al **Wi‑Fi de la cámara** y desactiva los datos móviles.
-2. Abre ajustes y comprueba la **IP de la cámara**. El valor inicial es `10.99.77.1`, la dirección habitual del Wi‑Fi de la cámara en el firmware reciente. Algunos modelos antiguos usan `192.168.8.1`. No es una IP de la red de casa.
-3. Pulsa **Sincronizar cámara** o **En vivo**.
+OpenBlackView is a single APK. It lists recordings on the camera, downloads the event-like ones (and parking, when that option is on), and can open a live MJPEG stream from the front or rear lens.
 
-Se bajan los tipos de [blackvuesync](https://github.com/acolomba/blackvuesync) `E,M,I,O,A,T,B`: evento, manual, impacto, exceso de velocidad, aceleración, curva y frenada. El parking (`P`) va aparte y viene activado. Los archivos que ya están se omiten. Cada día va en su carpeta.
+| Topic | Detail |
+| --- | --- |
+| Network | Camera Wi‑Fi only. Default host `10.99.77.1` |
+| Sync | Event clips, plus parking when enabled |
+| Live view | Front and rear |
+| Storage | `blackvue/eventos` and `blackvue/parking` on the phone |
+
+BlackVue Cloud is not required. Copying files onward to a NAS is out of scope: any app that syncs a folder can do that later. Termux, Python, and helper scripts are not part of the install.
+
+## Diagrams
+
+These figures describe the current app. They are diagrams, not photos from a phone or emulator. Device screenshots can replace the screen layout later.
+
+![Phone and dashcam on the camera Wi-Fi. Cloud, NAS, and Termux sit outside that path.](docs/architecture.svg)
+
+![Event and parking folders on internal storage, and how a camera filename is rewritten.](docs/folders.svg)
+
+![Schematic of Home, Settings (including the compatible-camera note), and Live.](docs/ui-layout.svg)
+
+## Features
+
+- Lists the card over the camera’s local HTTP API and skips a clip that is already stored, whether under the original camera name or the readable local name.
+- Downloads event-like types `E`, `M`, `I`, `O`, `A`, `T`, `B`: event, manual, impact, overspeed, acceleration, cornering, braking. That is the same set as [blackvuesync](https://github.com/acolomba/blackvuesync) `--include E,M,I,O,A,T,B`.
+- Parking (`P`) is a separate option, on by default, and goes to its own folder.
+- Leaves normal driving recordings (`N`) on the card.
+- Downloads 1–4 files at once (default 3). If the camera fails under that load, the rest of the queue continues one file at a time.
+- Writes each file as `.partial` and renames it to `.mp4` only after the write finishes.
+- Stops when free space drops below 200 MB.
+- After a sync, can ask the camera to delete only the files from that run that downloaded completely and match in size. The dialog asks for confirmation. The rest of the card is left alone.
+- Live view uses `http://<host>/blackvue_live.cgi`. Rear adds `?direction=R`. Leaving the screen closes the socket. Live waits while a copy is running.
+- Shows a foreground notification for the duration of a copy or delete, so the job can continue with the screen off.
+- Stores the camera IP, the parking switch, and the parallel-download count on the phone.
+
+## Compatible cameras
+
+**Tested with this app:** BlackVue DR590XP, with the phone on the camera’s own Wi‑Fi.
+
+**Same local HTTP API, not verified in this repository:** other BlackVue models that serve one of these two list/download shapes. The app probes both.
+
+| Firmware | List | File URL |
+| --- | --- | --- |
+| V1.009 and later, when `GET /accessible` returns HTTP 200 and `GET /vodList` returns a JSON file list | `/vodList` | `/<filename>` |
+| Older firmware, including DR590X-class units before that split | `GET /blackvue_vod.cgi` (plain text) | `/Record/<filename>` |
+
+Live view needs `blackvue_live.cgi`. If the rear query returns no frames, the app says the rear camera is unavailable (`No llega la cámara trasera.`).
+
+Families that have historically used those endpoints in the official app, in [blackvuesync](https://github.com/acolomba/blackvuesync), and in other community tools. This is not an official catalogue, and it is not a claim that each model was tested here:
+
+- DR590X, DR590X-2CH, and DR590XP
+- DR750X, DR900X, DR770X, and DR970X, including Plus and LTE variants, with the phone joined to the camera Wi‑Fi (LTE does not change that)
+- Earlier series with the same listing: DR650S, DR750S, and DR900S
+
+The same note is on the **Ajustes** screen. It is a written note, not a control that detects the model.
+
+The default host `10.99.77.1` is the usual address of the camera access point on current firmware. Some older units use `192.168.8.1`. Either way it is the dashcam’s address, not a host on a home router. Settings keeps the last IP you saved.
+
+Wi‑Fi delete is absent on many models, including the tested DR590XP. Some 2025 DR770X and DR970X firmware may answer a delete call. The app tries a file-scoped request and then lists the card again. A file counts as removed only when that fresh index no longer contains the name. Otherwise it stays on the SD card.
+
+## How it works
+
+1. Connect the phone to the **camera Wi‑Fi** and turn mobile data off, so HTTP reaches the dashcam.
+2. Open settings and check the **camera IP**.
+3. Grant storage access, then tap **Sincronizar cámara** or **En vivo**.
+
+If the camera does not answer, the log shows: «No se alcanza la cámara. Conéctate a su Wi‑Fi e inténtalo.» A missing Wi‑Fi connection is also logged as a warning before the attempt.
+
+Each accepted clip is `YYYYMMDD_HHMMSS_` plus a type letter, a direction letter, an optional `L` or `S`, and `.mp4`. Anything else is ignored.
 
 ```text
-Almacenamiento interno/blackvue/eventos/AAAA-MM-DD/*.mp4
-Almacenamiento interno/blackvue/parking/AAAA-MM-DD/*.mp4
+Internal storage/blackvue/eventos/YYYY-MM-DD/*.mp4
+Internal storage/blackvue/parking/YYYY-MM-DD/*.mp4
 ```
 
-Ejemplo: `blackvue/eventos/2026-09-29/2026-09-29_18-45-03_evento_frente.mp4`
+Example: `blackvue/eventos/2026-09-29/2026-09-29_18-45-03_evento_frente.mp4`
 
-El nombre de la cámara (`20260929_184503_EF.mp4`) se guarda con fecha, hora, tipo y cámara en español, sin tildes. Una `L` o `S` final se conserva para que no se pisen. Si el archivo ya estaba con el nombre original, no se vuelve a bajar.
+The camera name `20260929_184503_EF.mp4` is stored with the date, time, type, and direction in Spanish, without accents. A trailing `L` or `S` is kept (`_L` or `_S`) so those variants do not overwrite each other. If the phone already has the file under the camera name or the local name, it is not downloaded again.
 
-La sincronización baja varios archivos a la vez (de 1 a 4, por defecto 3). Si la cámara no aguanta, sigue de uno en uno. Cada archivo se escribe como `.partial` y solo pasa a `.mp4` al terminar.
+| Type | Word in the filename | Folder |
+| --- | --- | --- |
+| `E` | evento | eventos |
+| `M` | manual | eventos |
+| `I` | impacto | eventos |
+| `O` | exceso | eventos |
+| `A` | aceleracion | eventos |
+| `T` | curva | eventos |
+| `B` | frenada | eventos |
+| `P` | parking | parking |
+| `N` | — | not downloaded |
 
-Si la cámara no responde: «No se alcanza la cámara. Conéctate a su Wi‑Fi e inténtalo.»
+| Direction | Word in the filename |
+| --- | --- |
+| `F` | frente |
+| `R` | trasera |
+| `I` | interior |
+| `O` | opcional |
 
-El firmware antiguo lista en `http://IP/blackvue_vod.cgi` y sirve desde `/Record/`. Si responde en `/accessible` y `/vodList`, la app usa esa API. **En vivo** usa `http://IP/blackvue_live.cgi` y la trasera añade `?direction=R`. Al salir de esa pantalla se cierra la conexión.
+## Requirements
 
-## Cámaras compatibles
+- Phone: Android 8.0 or newer (`minSdk` 26). `compileSdk` and `targetSdk` are 35.
+- To build: JDK 17 and Android SDK 35.
+- A dashcam in Wi‑Fi access-point mode, and the phone associated with that network.
 
-Probado en una **DR590XP**. Debería funcionar en modelos BlackVue con Wi‑Fi local y la API HTTP clásica: vídeo en vivo en `blackvue_live.cgi` (trasera: `?direction=R`) y listado de grabaciones en `blackvue_vod.cgi` o, con firmware reciente (a partir de V1.009), en `/vodList` tras `GET /accessible`.
-
-Familias que históricamente usan esos endpoints (app oficial, [blackvuesync](https://github.com/acolomba/blackvuesync) y otras herramientas de la comunidad). No es una lista oficial ni exhaustiva:
-
-- DR590X, DR590X-2CH y DR590XP
-- DR750X, DR900X, DR770X y DR970X, incluidas variantes Plus y LTE, con el teléfono en el Wi‑Fi de la propia cámara
-- Series anteriores con el mismo listado: DR650S, DR750S y DR900S
-
-La misma nota está en **Ajustes** de la app. La IP inicial `10.99.77.1` es la habitual en el firmware reciente. Algunos modelos antiguos usan `192.168.8.1`.
-
-## Termux
-
-No hace falta Termux, ni Python, ni scripts. Todo va dentro del APK. La app no tiene un botón para instalar dependencias externas porque no hay ninguna.
-
-## Permisos
-
-- Internet, para hablar con la cámara por HTTP en su Wi‑Fi.
-- En Android 11 o posterior, acceso a todos los archivos para escribir en `Almacenamiento interno/blackvue`.
-- En Android 8 y 9, el permiso de almacenamiento.
-- En Android 10, el selector del sistema para elegir la carpeta `blackvue`.
-- Notificación mientras dura una copia, para que no se corte al apagar la pantalla.
-
-## Compilar e instalar
-
-Requisitos en el ordenador: JDK 17, Android SDK 35, `minSdk` 26.
+## Build & install
 
 ```sh
 ./gradlew assembleDebug
 ```
 
-El APK queda en `app/build/outputs/apk/debug/app-debug.apk`. Instálalo con `adb install -r` o cópialo al teléfono y ábrelo. Si Android bloquea orígenes desconocidos, permite la instalación desde el gestor de archivos.
+The APK is `app/build/outputs/apk/debug/app-debug.apk`. Install it with adb, or copy it to the phone and open it. If Android blocks unknown sources, allow installs from the file manager.
 
-Pruebas de la lógica de nombres, sin teléfono:
+```sh
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+
+Unit tests cover naming, listing, and the live URL. They do not need a phone or a camera:
 
 ```sh
 ./gradlew testDebugUnitTest
 ```
 
-## Limitaciones
+There is no dependency-install button. The debug APK is the client.
 
-- No baja grabaciones normales (`N`).
-- **Borrar de la cámara** solo se ofrece para los archivos de esa sincronización que se descargaron enteros y coinciden en tamaño. Pide confirmación. En muchos modelos (por ejemplo la DR590XP) el borrado por Wi‑Fi no existe: la app lo intenta y, si el archivo sigue en el listado, hay que quitarlo con la tarjeta. En parte del firmware reciente de DR770X y DR970X el borrado sí puede responder.
-- No sube archivos a un NAS ni abre BlackVue Cloud.
+## Permissions
 
-## Licencia
+| Android | Storage |
+| --- | --- |
+| 8.0–9 | Storage permission, so the app can write `Internal storage/blackvue` |
+| 10 | System folder picker. Choose the `blackvue` folder |
+| 11 and newer | All-files access for that same path, because it sits outside Photos. The folder picker is also offered if all-files access is not granted |
+| 13 and newer | Notification permission, so the copy can keep running with the screen off |
 
-MIT. Ver [LICENSE](LICENSE).
+On every version the app also uses:
+
+- Internet, plus network and Wi‑Fi state, to reach the camera and to notice when Wi‑Fi is down.
+- Cleartext HTTP. The dashcam serves `http://`, not TLS. See `app/src/main/res/xml/network_security_config.xml`.
+- A data-sync foreground service and a wake lock while a copy or delete is running.
+
+## Limitations
+
+- Normal recordings (`N`) are not downloaded.
+- Files are not uploaded to a NAS, SMB share, or WebDAV server.
+- BlackVue Cloud, accounts, and remote playback are not used.
+- There is no Termux or script bootstrap.
+- Delete over Wi‑Fi does nothing on many cameras (the DR590XP among them). The log says so, and the file remains on the card. Some recent DR770X and DR970X firmware may accept the delete.
+- Delete is limited to files from the current sync that finished and whose size matches the download. It does not format the card or delete by wildcard.
+- Live view is a live MJPEG display. It does not record, and it closes when you leave the screen.
+- Live view waits until an in-progress copy finishes.
+- Clip names that do not match `YYYYMMDD_HHMMSS_TD.mp4`, with an optional `L` or `S`, are skipped.
+- Downloads stop when free space is under 200 MB.
+- The interface is Spanish.
+
+## Contributing
+
+Issues and pull requests are welcome. Keep the client on the camera Wi‑Fi: list, download, live view, and the storage layout above. NAS sync and Cloud login are out of scope on purpose.
+
+For a change that touches naming, the file index, or the live URL:
+
+```sh
+./gradlew testDebugUnitTest
+```
+
+UI strings in the app stay in Spanish unless a change is explicitly about translation.
+
+## License
+
+MIT. See [LICENSE](LICENSE). Copyright 2026 OpenBlackView contributors.
+
+## Español
+
+App Android para copiar clips de evento y, si lo activas, de parking desde el Wi‑Fi de la propia BlackVue, y ver el directo de frente o trasera. En el teléfono se llama **BlackVue Eventos**. Probada en la DR590XP; otras familias con la misma API HTTP local pueden funcionar (la nota está en Ajustes). No hace falta BlackVue Cloud ni Termux. Los vídeos se quedan en `blackvue/eventos` y `blackvue/parking`. Subirlos a un NAS queda fuera.

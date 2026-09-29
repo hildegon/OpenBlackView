@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-labelledby="archTitle archDesc">
+  <title id="archTitle">Phone and dashcam on the camera Wi-Fi</title>
+  <desc id="archDesc">OpenBlackView on a phone uses HTTP over the dashcam access point to list clips, download them, and open live view. Cloud, NAS, and Termux are outside that path.</desc>
+  <rect width="960" height="600" rx="20" fill="#101214"/>
+  <text x="36" y="46" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="22" font-weight="600">Local Wi-Fi only</text>
+  <text x="36" y="74" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15">The phone joins the dashcam access point. HTTP stays on that link.</text>
+
+  <rect x="28" y="100" width="250" height="320" rx="16" fill="#1C2126" stroke="#2E373E"/>
+  <text x="48" y="132" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="1.2">PHONE</text>
+  <text x="48" y="164" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="600">OpenBlackView</text>
+  <text x="48" y="190" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Shown as BlackVue Eventos</text>
+  <line x1="48" y1="210" x2="258" y2="210" stroke="#2E373E"/>
+  <text x="48" y="240" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Join the camera Wi-Fi</text>
+  <text x="48" y="264" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Turn mobile data off</text>
+  <text x="48" y="288" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Sync, or open live view</text>
+  <text x="48" y="312" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Save under blackvue/</text>
+  <text x="48" y="380" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Android 8.0+ · API 26</text>
+
+  <rect x="298" y="100" width="364" height="320" rx="16" fill="#1C2126" stroke="#E8A317"/>
+  <text x="318" y="132" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="1.2">CAMERA WI-FI · HTTP :80</text>
+  <text x="318" y="162" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="16" font-weight="600">10.99.77.1</text>
+  <text x="318" y="184" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Older units may use 192.168.8.1</text>
+
+  <rect x="318" y="204" width="324" height="58" rx="10" fill="#101214"/>
+  <text x="332" y="226" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600">LIST</text>
+  <text x="332" y="246" fill="#E7ECE8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12">/vodList   or   /blackvue_vod.cgi</text>
+
+  <rect x="318" y="272" width="324" height="58" rx="10" fill="#101214"/>
+  <text x="332" y="294" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600">DOWNLOAD</text>
+  <text x="332" y="314" fill="#E7ECE8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12">/file.mp4   or   /Record/file.mp4</text>
+
+  <rect x="318" y="340" width="324" height="58" rx="10" fill="#101214"/>
+  <text x="332" y="362" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600">LIVE</text>
+  <text x="332" y="382" fill="#E7ECE8" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="12">/blackvue_live.cgi?direction=R</text>
+
+  <rect x="682" y="100" width="250" height="320" rx="16" fill="#1C2126" stroke="#2E373E"/>
+  <text x="702" y="132" fill="#E8A317" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="1.2">DASHCAM</text>
+  <text x="702" y="164" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="20" font-weight="600">BlackVue</text>
+  <text x="702" y="190" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Own access point</text>
+  <line x1="702" y1="210" x2="912" y2="210" stroke="#2E373E"/>
+  <text x="702" y="240" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Cleartext HTTP server</text>
+  <text x="702" y="264" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Clips live on the SD card</text>
+  <text x="702" y="288" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="14">Front and rear live MJPEG</text>
+  <text x="702" y="328" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Wi-Fi delete is often</text>
+  <text x="702" y="348" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">missing (DR590XP)</text>
+  <text x="702" y="380" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Tested model: DR590XP</text>
+
+  <text x="36" y="460" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="12" font-weight="600" letter-spacing="1.2">OUTSIDE THIS PATH</text>
+
+  <rect x="28" y="478" width="288" height="88" rx="12" fill="#1C2126" stroke="#2E373E" stroke-dasharray="4 4"/>
+  <text x="46" y="512" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600">BlackVue Cloud</text>
+  <text x="46" y="536" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">No account and no remote playback</text>
+
+  <rect x="336" y="478" width="288" height="88" rx="12" fill="#1C2126" stroke="#2E373E" stroke-dasharray="4 4"/>
+  <text x="354" y="512" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600">NAS / home LAN</text>
+  <text x="354" y="536" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">Clips are not uploaded from the app</text>
+
+  <rect x="644" y="478" width="288" height="88" rx="12" fill="#1C2126" stroke="#2E373E" stroke-dasharray="4 4"/>
+  <text x="662" y="512" fill="#E7ECE8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="15" font-weight="600">Termux</text>
+  <text x="662" y="536" fill="#9AA4A8" font-family="Inter, Segoe UI, Helvetica, Arial, sans-serif" font-size="13">The APK is the whole client</text>
+</svg>
