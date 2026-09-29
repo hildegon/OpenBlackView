@@ -9,6 +9,15 @@ The phone joins the dashcam access point and talks to it over cleartext HTTP. Cl
 
 The in-app language is Spanish. This file is the English guide.
 
+
+## Screenshots
+
+Captured on an Android emulator (no camera connected — Live shows the connecting state).
+
+| Home | Settings | Live |
+|:---:|:---:|:---:|
+| ![Home](docs/screenshots/home.png) | ![Settings](docs/screenshots/settings.png) | ![Live](docs/screenshots/live.png) |
+
 ## What it is
 
 OpenBlackView is a single APK. It lists recordings on the camera, downloads the event-like ones (and parking, when that option is on), and can open a live MJPEG stream from the front or rear lens.
