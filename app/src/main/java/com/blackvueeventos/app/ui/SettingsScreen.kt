@@ -83,34 +83,58 @@ fun SettingsScreen(viewModel: AppViewModel, onBack: () -> Unit) {
                     },
                     singleLine = true,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = Paper,
-                        unfocusedTextColor = Paper,
-                        focusedLabelColor = Amber,
-                        unfocusedLabelColor = Muted,
-                        focusedBorderColor = Amber,
-                        unfocusedBorderColor = Line,
-                        cursorColor = Amber,
-                        focusedSupportingTextColor = Muted,
-                        unfocusedSupportingTextColor = Muted,
-                    ),
+                    colors = fieldColors(),
                 )
                 Spacer(Modifier.height(8.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Switch(
+                Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    CategoryToggle(
+                        checked = settings.downloadEvents,
+                        title = "Descargar eventos",
+                        detail = "E, M, I, O, A, T y B, carpeta eventos.",
+                        onCheckedChange = { viewModel.updateSettings(settings.copy(downloadEvents = it)) },
+                    )
+                    CategoryToggle(
                         checked = settings.downloadParking,
+                        title = "Descargar parking",
+                        detail = "Tipo P, carpeta parking.",
                         onCheckedChange = { viewModel.updateSettings(settings.copy(downloadParking = it)) },
                     )
-                    Spacer(Modifier.size(8.dp))
-                    Column(Modifier.weight(1f)) {
-                        Text("Descargar parking", color = Paper)
-                        Text(
-                            "Tipo P, en blackvue/parking. Los eventos siguen en blackvue/eventos.",
-                            color = Muted,
-                            style = MaterialTheme.typography.bodySmall,
-                        )
-                    }
+                    CategoryToggle(
+                        checked = settings.downloadNormal,
+                        title = "Descargar normal",
+                        detail = "Tipo N, grabación continua, carpeta normal.",
+                        onCheckedChange = { viewModel.updateSettings(settings.copy(downloadNormal = it)) },
+                    )
+                    CategoryToggle(
+                        checked = settings.downloadGeofence,
+                        title = "Descargar geocerca",
+                        detail = "R, X y G, carpeta geocerca.",
+                        onCheckedChange = { viewModel.updateSettings(settings.copy(downloadGeofence = it)) },
+                    )
+                    CategoryToggle(
+                        checked = settings.downloadDriver,
+                        title = "Descargar conductor",
+                        detail = "D, L, Y y F, carpeta conductor.",
+                        onCheckedChange = { viewModel.updateSettings(settings.copy(downloadDriver = it)) },
+                    )
                 }
+                Spacer(Modifier.height(8.dp))
+                OutlinedTextField(
+                    value = settings.downloadRoot,
+                    onValueChange = { viewModel.updateSettings(settings.copy(downloadRoot = it)) },
+                    modifier = Modifier.fillMaxWidth(),
+                    label = { Text("Carpeta base") },
+                    placeholder = { Text("Almacenamiento interno/blackvue") },
+                    supportingText = {
+                        Text(
+                            "Vacío usa Almacenamiento interno/blackvue. " +
+                                "Si faltan la ruta o las carpetas de cada tipo, se crean al sincronizar.",
+                        )
+                    },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri),
+                    colors = fieldColors(),
+                )
                 Spacer(Modifier.height(16.dp))
                 Text("Descargas a la vez", color = Paper)
                 Text(
@@ -174,3 +198,35 @@ fun SettingsScreen(viewModel: AppViewModel, onBack: () -> Unit) {
         }
     }
 }
+
+@Composable
+private fun CategoryToggle(
+    checked: Boolean,
+    title: String,
+    detail: String,
+    onCheckedChange: (Boolean) -> Unit,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Switch(checked = checked, onCheckedChange = onCheckedChange)
+        Spacer(Modifier.size(8.dp))
+        Column(Modifier.weight(1f)) {
+            Text(title, color = Paper)
+            Text(detail, color = Muted, style = MaterialTheme.typography.bodySmall)
+        }
+    }
+}
+
+@Composable
+private fun fieldColors() = OutlinedTextFieldDefaults.colors(
+    focusedTextColor = Paper,
+    unfocusedTextColor = Paper,
+    focusedLabelColor = Amber,
+    unfocusedLabelColor = Muted,
+    focusedBorderColor = Amber,
+    unfocusedBorderColor = Line,
+    cursorColor = Amber,
+    focusedSupportingTextColor = Muted,
+    unfocusedSupportingTextColor = Muted,
+    focusedPlaceholderColor = Muted,
+    unfocusedPlaceholderColor = Muted,
+)

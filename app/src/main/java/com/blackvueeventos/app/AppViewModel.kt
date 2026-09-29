@@ -6,12 +6,19 @@ import androidx.lifecycle.viewModelScope
 import com.blackvueeventos.app.blackvue.BlackvueClient
 import com.blackvueeventos.app.blackvue.CameraDelete
 import com.blackvueeventos.app.blackvue.CameraUnreachable
+import com.blackvueeventos.app.blackvue.ClipCategory
+import com.blackvueeventos.app.blackvue.Recording
+import com.blackvueeventos.app.blackvue.SyncSelection
 import com.blackvueeventos.app.blackvue.alreadyOnPhone
+import com.blackvueeventos.app.blackvue.anySelected
+import com.blackvueeventos.app.blackvue.categoryOf
 import com.blackvueeventos.app.blackvue.eligibleForCameraDelete
 import com.blackvueeventos.app.blackvue.includeInSync
 import com.blackvueeventos.app.blackvue.localFilename
 import com.blackvueeventos.app.blackvue.parseRecordingName
+import com.blackvueeventos.app.blackvue.selected
 import com.blackvueeventos.app.blackvue.storageBucket
+import com.blackvueeventos.app.settings.toSelection
 import com.blackvueeventos.app.format.formatBytes
 import com.blackvueeventos.app.keep.KeepAliveService
 import com.blackvueeventos.app.net.CAMERA_UNREACHABLE
@@ -138,22 +145,32 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     private suspend fun doSync() {
-        val storage = EventStorage(getApplication())
+        val settings = _settings.value
+        val storage = EventStorage(getApplication(), settings.downloadRoot)
+        val selection = settings.toSelection()
         _readyToDelete.value = emptyList()
         log("— Sincronizar cámara —")
         if (!storage.access().ready) {
-            log("Falta permiso para guardar en Almacenamiento interno/blackvue.")
+            log("Falta permiso para guardar en ${storage.access().label}.")
+            return
+        }
+        log("Destino: ${storage.access().label}")
+        try {
+            storage.ensureLayout()
+        } catch (error: StorageException) {
+            log(error.message ?: "No se pudo crear la carpeta de destino.")
+            return
+        }
+        if (!anySelected(selection)) {
+            log("Ningún tipo está activado en Ajustes.")
             return
         }
         if (!isWifiConnected(getApplication())) {
             log("Aviso: no hay Wi‑Fi activo. La cámara solo responde en su propia red.")
         }
-        val settings = _settings.value
         val host = settings.cameraHost
-        val downloadParking = settings.downloadParking
         val workers = clampConcurrency(settings.downloadConcurrency)
         log("Conectando con $host…")
-        log("Destino: ${storage.access().label}")
         val listing = try {
             camera.list(host)
         } catch (error: Exception) {
@@ -167,18 +184,17 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         if (unknown > 0) {
             log("Se ignoraron $unknown nombres que no parecen grabaciones BlackVue.")
         }
-        val wanted = parsed.filter { includeInSync(it, downloadParking) }
+        val odd = parsed.filter { categoryOf(it.type) == null }
+        if (odd.isNotEmpty()) {
+            val letters = odd.map { it.type }.distinct().sorted().joinToString(", ")
+            log("Se ignoraron ${odd.size} vídeos de tipo no reconocido ($letters).")
+        }
+        val wanted = parsed.filter { includeInSync(it, selection) }
             .distinctBy { it.filename }
             .sortedBy { it.filename }
         val present = storage.existingMp4Names()
         val pending = wanted.filter { !alreadyOnPhone(it.filename, present) }
-        val eventCount = wanted.count { it.isEventLike }
-        val parkingCount = wanted.count { it.isParking }
-        log(
-            "Eventos (E, M, I, O, A, T, B): $eventCount. " +
-                (if (downloadParking) "Parking (P): $parkingCount. " else "Parking desactivado. ") +
-                "Ya en el teléfono: ${wanted.size - pending.size}. Por bajar: ${pending.size}.",
-        )
+        log(describeWanted(selection, wanted, pending.size))
         if (pending.isEmpty()) {
             log("Nada nuevo. Esos vídeos ya están en el teléfono.")
             return
@@ -234,7 +250,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                                 }
                             } ?: break
                             if (stop) break
-                            val kind = if (recording.isParking) "parking" else "evento"
+                            val kind = categoryOf(recording.type)?.bucket ?: "video"
                             val savedName = localFilename(recording.filename)
                             val label = "$kind · $savedName"
                             synchronized(lock) {
@@ -335,7 +351,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         _readyToDelete.value = verified.toList()
         log("Sincronización terminada. Descargados: $done. Errores: $failed. Omitidos: ${wanted.size - pending.size}.")
         if (done > 0) {
-            log("Quedan en el teléfono: eventos en blackvue/eventos, parking en blackvue/parking.")
+            log("Quedan en el teléfono, en ${storage.access().label}.")
         }
         if (verified.isNotEmpty()) {
             log("Comprobados para borrar de la cámara: ${verified.size}. Pulsa «Borrar de la cámara»; pedirá confirmación.")
@@ -397,6 +413,22 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
         markComplete = !stop && removed == files.size && failed == 0
         log("Borrado terminado. Borrados: $removed. Siguen en la cámara: ${files.size - removed}.")
+    }
+
+    private fun describeWanted(
+        selection: SyncSelection,
+        wanted: List<Recording>,
+        pending: Int,
+    ): String {
+        val parts = ClipCategory.entries.joinToString(" ") { category ->
+            if (category.selected(selection)) {
+                val count = wanted.count { categoryOf(it.type) == category }
+                "${category.title} (${category.codes}): $count."
+            } else {
+                "${category.title} desactivado."
+            }
+        }
+        return "$parts Ya en el teléfono: ${wanted.size - pending}. Por bajar: $pending."
     }
 
     private fun persist(settings: AppSettings) {

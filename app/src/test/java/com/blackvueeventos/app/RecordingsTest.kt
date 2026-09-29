@@ -1,6 +1,8 @@
 package com.blackvueeventos.app
 
+import com.blackvueeventos.app.blackvue.SyncSelection
 import com.blackvueeventos.app.blackvue.alreadyOnPhone
+import com.blackvueeventos.app.blackvue.categoryOf
 import com.blackvueeventos.app.blackvue.eligibleForCameraDelete
 import com.blackvueeventos.app.blackvue.localFilename
 import com.blackvueeventos.app.blackvue.includeInSync
@@ -78,10 +80,38 @@ class RecordingsTest {
         val parking = parseRecordingName("20260928_101500_PF.mp4")!!
         assertEquals(false, parking.isEventLike)
         assertEquals(true, parking.isParking)
-        assertEquals(false, includeInSync(parking, downloadParking = false))
-        assertEquals(true, includeInSync(parking, downloadParking = true))
+        assertEquals(false, includeInSync(parking, SyncSelection(parking = false)))
+        assertEquals(true, includeInSync(parking, SyncSelection(parking = true)))
         assertEquals("parking", storageBucket(parking.type))
         assertEquals("eventos", storageBucket('E'))
+        val normal = parseRecordingName("20260928_101500_NF.mp4")!!
+        assertEquals(false, includeInSync(normal, SyncSelection()))
+        assertEquals(true, includeInSync(normal, SyncSelection(normal = true)))
+        assertEquals("normal", storageBucket('N'))
+        assertEquals("geocerca", storageBucket('R'))
+        assertEquals("geocerca", storageBucket('X'))
+        assertEquals("geocerca", storageBucket('G'))
+        assertEquals("conductor", storageBucket('D'))
+        assertEquals("conductor", storageBucket('L'))
+        assertEquals("conductor", storageBucket('Y'))
+        assertEquals("conductor", storageBucket('F'))
+        val enter = parseRecordingName("20260928_101500_RF.mp4")!!
+        assertEquals(false, includeInSync(enter, SyncSelection()))
+        assertEquals(true, includeInSync(enter, SyncSelection(geofence = true)))
+        val drowsy = parseRecordingName("20260928_101500_DF.mp4")!!
+        assertEquals(true, includeInSync(drowsy, SyncSelection(driver = true)))
+        assertEquals(false, includeInSync(drowsy, SyncSelection(driver = false)))
+        val event = parseRecordingName("20260928_101530_EF.mp4")!!
+        assertEquals(false, includeInSync(event, SyncSelection(events = false)))
+        val unknown = parseRecordingName("20260928_101500_CF.mp4")!!
+        assertEquals(null, categoryOf(unknown.type))
+        assertEquals(
+            false,
+            includeInSync(
+                unknown,
+                SyncSelection(events = true, parking = true, normal = true, geofence = true, driver = true),
+            ),
+        )
     }
 
     @Test
@@ -106,6 +136,14 @@ class RecordingsTest {
         assertEquals("2026-09-28_16-00-00_curva_frente.mp4", localFilename("20260928_160000_TF.mp4"))
         assertEquals("2026-09-28_17-00-00_frenada_frente.mp4", localFilename("20260928_170000_BF.mp4"))
         assertEquals("2026-09-28_11-00-00_manual_frente.mp4", localFilename("20260928_110000_MF.mp4"))
+        assertEquals("2026-09-28_10-15-00_normal_frente.mp4", localFilename("20260928_101500_NF.mp4"))
+        assertEquals("2026-09-28_10-15-00_entrada_frente.mp4", localFilename("20260928_101500_RF.mp4"))
+        assertEquals("2026-09-28_10-15-00_salida_trasera.mp4", localFilename("20260928_101500_XR.mp4"))
+        assertEquals("2026-09-28_10-15-00_paso_frente.mp4", localFilename("20260928_101500_GF.mp4"))
+        assertEquals("2026-09-28_10-15-00_somnolencia_frente.mp4", localFilename("20260928_101500_DF.mp4"))
+        assertEquals("2026-09-28_10-15-00_distraccion_frente.mp4", localFilename("20260928_101500_LF.mp4"))
+        assertEquals("2026-09-28_10-15-00_cinturon_frente.mp4", localFilename("20260928_101500_YF.mp4"))
+        assertEquals("2026-09-28_10-15-00_ausente_frente.mp4", localFilename("20260928_101500_FF.mp4"))
         assertEquals("2026-09-29_18-45-03_evento_interior.mp4", localFilename("20260929_184503_EI.mp4"))
         assertEquals("2026-09-29_18-45-03_evento_opcional.mp4", localFilename("20260929_184503_EO.mp4"))
         val locals = listOf(
@@ -153,11 +191,19 @@ class RecordingsTest {
     fun savedCameraIp_replacesThePlaceholder() {
         val fresh = com.blackvueeventos.app.settings.AppSettings()
         assertEquals("10.99.77.1", fresh.cameraHost)
+        assertEquals(true, fresh.downloadEvents)
         assertEquals(true, fresh.downloadParking)
+        assertEquals(false, fresh.downloadNormal)
+        assertEquals(false, fresh.downloadGeofence)
+        assertEquals(false, fresh.downloadDriver)
+        assertEquals("", fresh.downloadRoot)
         assertEquals(3, fresh.downloadConcurrency)
         assertEquals(1, resolveSettings("10.0.0.1", downloadConcurrency = 0).downloadConcurrency)
         assertEquals(4, resolveSettings("10.0.0.1", downloadConcurrency = 8).downloadConcurrency)
         assertEquals(false, resolveSettings("10.99.77.1", downloadParking = false).downloadParking)
+        assertEquals(true, resolveSettings("10.99.77.1", downloadNormal = true).downloadNormal)
+        assertEquals("/storage/cam", resolveSettings("10.99.77.1", downloadRoot = " /storage/cam ").downloadRoot)
+        assertEquals("", resolveSettings("10.99.77.1", downloadRoot = "  ").downloadRoot)
         assertEquals("10.99.77.1", resolveSettings("10.99.77.1").cameraHost)
         assertEquals("10.99.77.1", resolveSettings("  ").cameraHost)
     }

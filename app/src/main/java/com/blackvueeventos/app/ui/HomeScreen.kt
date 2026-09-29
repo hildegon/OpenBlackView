@@ -65,37 +65,43 @@ fun HomeScreen(viewModel: AppViewModel, onSettings: () -> Unit, onLive: () -> Un
     val running by viewModel.running.collectAsStateWithLifecycle()
     val progress by viewModel.progress.collectAsStateWithLifecycle()
     val readyToDelete by viewModel.readyToDelete.collectAsStateWithLifecycle()
+    val settings by viewModel.settings.collectAsStateWithLifecycle()
     var confirmDelete by remember { mutableStateOf(false) }
-    var access by remember { mutableStateOf(EventStorage(context).access()) }
+    fun storage() = EventStorage(context, settings.downloadRoot)
+    var access by remember { mutableStateOf(storage().access()) }
     var explainAllFiles by remember { mutableStateOf(false) }
 
+    val root = settings.downloadRoot
     val lifecycleOwner = LocalLifecycleOwner.current
-    DisposableEffect(lifecycleOwner) {
+    DisposableEffect(lifecycleOwner, root) {
         val observer = LifecycleEventObserver { _, event ->
             if (event == Lifecycle.Event.ON_RESUME) {
-                access = EventStorage(context).access()
+                access = EventStorage(context, root).access()
             }
         }
         lifecycleOwner.lifecycle.addObserver(observer)
         onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
     }
+    LaunchedEffect(root) {
+        access = EventStorage(context, root).access()
+    }
 
     val writePermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission(),
     ) {
-        access = EventStorage(context).access()
+        access = storage().access()
     }
     val allFiles = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult(),
     ) {
-        access = EventStorage(context).access()
+        access = storage().access()
     }
     val tree = rememberLauncherForActivityResult(
         ActivityResultContracts.OpenDocumentTree(),
     ) { uri ->
         if (uri != null) {
-            EventStorage(context).persistTree(uri)
-            access = EventStorage(context).access()
+            storage().persistTree(uri)
+            access = storage().access()
         }
     }
     val notifications = rememberLauncherForActivityResult(
@@ -140,15 +146,16 @@ fun HomeScreen(viewModel: AppViewModel, onSettings: () -> Unit, onLive: () -> Un
             title = { Text("Acceso al almacenamiento") },
             text = {
                 Text(
-                    "Los vídeos se guardan en Almacenamiento interno/blackvue, " +
-                        "eventos y parking en carpetas distintas, cada día en la suya. " +
+                    "Los vídeos se guardan bajo la carpeta base " +
+                        "(por defecto Almacenamiento interno/blackvue). " +
+                        "Cada tipo y cada día tienen su carpeta. Si faltan, se crean al sincronizar. " +
                         "Android pide acceso a todos los archivos porque esa ruta está fuera de Fotos.",
                 )
             },
             confirmButton = {
                 TextButton(onClick = {
                     explainAllFiles = false
-                    allFiles.launch(EventStorage(context).allFilesIntent())
+                    allFiles.launch(storage().allFilesIntent())
                 }) { Text("Continuar") }
             },
             dismissButton = {
@@ -180,7 +187,7 @@ fun HomeScreen(viewModel: AppViewModel, onSettings: () -> Unit, onLive: () -> Un
             }
             Spacer(Modifier.height(8.dp))
             Text(
-                "Conecta el teléfono al Wi‑Fi de la cámara. Eventos en blackvue/eventos; parking, si está activado, en blackvue/parking. Modelos compatibles en Ajustes.",
+                "Conecta el teléfono al Wi‑Fi de la cámara. Cada tipo va a su carpeta (eventos, parking, normal, geocerca, conductor). La carpeta base y los interruptores están en Ajustes.",
                 color = Muted,
                 style = MaterialTheme.typography.bodySmall,
             )
